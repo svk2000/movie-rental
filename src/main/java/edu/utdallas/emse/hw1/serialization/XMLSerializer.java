@@ -15,6 +15,8 @@ public class XMLSerializer extends ObjectSerializer {
         this.leadingTabs = leadingTabs;
     }
 
+
+    /* TODO: Move as much of this as possible to super class */
     @Override
     public String serialize() {
         String buffer = getLeadingTabString();
@@ -37,6 +39,7 @@ public class XMLSerializer extends ObjectSerializer {
             try {
                 Object value = field.get(getObject());
 
+                /* TODO: Create objectType handlers rather than large if-else clause */
                 if (Collection.class.isAssignableFrom(type)) {
                     sb.append(buffer).append("\t");
                     header(tag, sb);
