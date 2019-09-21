@@ -1,5 +1,10 @@
 #!/bin/bash
 
-cd /mnt/Storage/School/EMSE/SE6329/src
-javac -d /mnt/Storage/School/EMSE/SE6329/target/ /mnt/Storage/School/EMSE/SE6329/src/main/java/edu/utdallas/emse/hw1/*/*.java /mnt/Storage/School/EMSE/SE6329/src/test/java/edu/utdallas/emse/hw1/*.java
-java -cp ../target edu.utdallas.emse.hw1.TestDriver
+# Build and run TestDriver from command line.
+function Main() {
+    cd $(dirname ${0})
+    javac -d ../target/ main/java/edu/utdallas/emse/hw1/*/*.java test/java/edu/utdallas/emse/hw1/*.java
+    java -cp ../target edu.utdallas.emse.hw1.TestDriver
+}
+
+Main $@

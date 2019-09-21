@@ -22,8 +22,19 @@ public class TestDriver {
         customer.addRental(MovieRentalFactory.getMovieRental(movie3, 1, rentalTime));
         customer.addRental(MovieRentalFactory.getMovieRental(movie4, 2, rentalTime));
 
-        System.out.println(customer.statement());
+        String expected =
+            "Rental Record for John Smith\n" +
+                "\tIndependence Day        3.5\n" +
+                "\tLatest Comic Book Movie 6.0\n" +
+                "\tDumbo   1.5\n" +
+                "\tDumbo: Even Dumber      1.5\n" +
+            "Amount owed is 12.5\n" +
+            "You earned 5 frequent renter points";
 
+        String statement = customer.statement();
+        assert(statement.equals(expected));
+
+        System.out.println(statement);
         ObjectSerializer os = new XMLSerializer(customer);
 
         try {
