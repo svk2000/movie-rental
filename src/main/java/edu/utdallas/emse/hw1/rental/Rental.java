@@ -4,5 +4,4 @@ public interface Rental {
     double getPrice();
 
     int getFrequentRenterPoints();
-
 }
