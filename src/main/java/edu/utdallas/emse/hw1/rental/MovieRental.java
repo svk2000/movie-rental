@@ -57,11 +57,10 @@ public class MovieRental implements Rental, ObjectSerializable {
 
     @Override
     public int getFrequentRenterPoints() {
-        if (frequentRenterPoints > 0) {
-            return frequentRenterPoints;
+        if (frequentRenterPoints == 0) {
+            frequentRenterPoints = calculateFrequentRenterPoints();
         }
 
-        frequentRenterPoints = calculateFrequentRenterPoints();
         return frequentRenterPoints;
     }
 
@@ -76,11 +75,12 @@ public class MovieRental implements Rental, ObjectSerializable {
 
     protected double calculatePrice() {
         Movie.Category cat = movie.getCategory();
-        int diffDaysRented = daysRented - getRentalPeriod(cat);
+        int diffDaysRented = getDaysRented() - getRentalPeriod(cat);
         return getPriceCode(cat) +
                 ((diffDaysRented > 0) ? diffDaysRented * 1.5 : 0);
     }
 
+    //TODO remove this
     protected int calculateFrequentRenterPoints() {
         return 1;
     }

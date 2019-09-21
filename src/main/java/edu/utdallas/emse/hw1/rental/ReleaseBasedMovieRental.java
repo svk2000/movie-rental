@@ -1,10 +1,13 @@
 package edu.utdallas.emse.hw1.rental;
 
 import edu.utdallas.emse.hw1.core.Movie;
+import edu.utdallas.emse.hw1.serialization.Serialized;
 
 import java.time.Instant;
 
 public class ReleaseBasedMovieRental extends MovieRental {
+
+    @Serialized(tag = "is-new-release")
     private boolean isNewRelease;
 
     ReleaseBasedMovieRental(Movie movie, int daysRented, Instant rentalDate) {
