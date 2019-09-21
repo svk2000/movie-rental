@@ -1,6 +1,5 @@
 package edu.utdallas.emse.hw1.serialization;
 
-import java.lang.reflect.Modifier;
 import java.util.Collection;
 
 public class XMLSerializer extends ObjectSerializer {
@@ -28,12 +27,6 @@ public class XMLSerializer extends ObjectSerializer {
 
         getFields().forEach((field, tag) -> {
             field.setAccessible(true);
-
-            if (Modifier.isStatic(field.getModifiers())) {
-                //Ignore static fields
-                return;
-            }
-
             Class type = field.getType();
 
             try {

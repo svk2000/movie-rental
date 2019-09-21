@@ -23,24 +23,55 @@ public class TestDriver {
         customer.addRental(MovieRentalFactory.getMovieRental(movie4, 2, rentalTime));
 
         String expected =
-            "Rental Record for John Smith\n" +
-                "\tIndependence Day        3.5\n" +
-                "\tLatest Comic Book Movie 6.0\n" +
-                "\tDumbo   1.5\n" +
-                "\tDumbo: Even Dumber      1.5\n" +
-            "Amount owed is 12.5\n" +
-            "You earned 5 frequent renter points";
+                "Rental Record for John Smith\n" +
+                        "\tIndependence Day\t3.50\n" +
+                        "\tLatest Comic Book Movie\t6.00\n" +
+                        "\tDumbo\t1.50\n" +
+                        "\tDumbo: Even Dumber\t1.50\n" +
+                        "Amount owed is 12.5\n" +
+                        "You earned 5 frequent renter points";
 
         String statement = customer.statement();
-        assert(statement.equals(expected));
-
         System.out.println(statement);
-        ObjectSerializer os = new XMLSerializer(customer);
+        assert statement.equals(expected);
 
-        try {
-            System.out.println(os.serialize());
-        } catch (Exception e) {
-            System.err.println(e);
-        }
+        String expectedXML =
+                "<customer>\n" +
+                        "\t<name>John Smith</name>\n" +
+                        "\t<rentals>\n" +
+                        "\t\t<movie-rental>\n" +
+                        "\t\t\t<is-new-release>false</is-new-release>\n" +
+                        "\t\t\t<movie>Independence Day</movie>\n" +
+                        "\t\t\t<days-rented>3</days-rented>\n" +
+                        "\t\t\t<total-price>3.5</total-price>\n" +
+                        "\t\t\t<frequent-renter-points>1</frequent-renter-points>\n" +
+                        "\t\t</movie-rental>\n" +
+                        "\t\t<movie-rental>\n" +
+                        "\t\t\t<is-new-release>true</is-new-release>\n" +
+                        "\t\t\t<movie>Latest Comic Book Movie</movie>\n" +
+                        "\t\t\t<days-rented>2</days-rented>\n" +
+                        "\t\t\t<total-price>6.0</total-price>\n" +
+                        "\t\t\t<frequent-renter-points>2</frequent-renter-points>\n" +
+                        "\t\t</movie-rental>\n" +
+                        "\t\t<movie-rental>\n" +
+                        "\t\t\t<movie>Dumbo</movie>\n" +
+                        "\t\t\t<days-rented>1</days-rented>\n" +
+                        "\t\t\t<total-price>1.5</total-price>\n" +
+                        "\t\t\t<frequent-renter-points>1</frequent-renter-points>\n" +
+                        "\t\t</movie-rental>\n" +
+                        "\t\t<movie-rental>\n" +
+                        "\t\t\t<movie>Dumbo: Even Dumber</movie>\n" +
+                        "\t\t\t<days-rented>2</days-rented>\n" +
+                        "\t\t\t<total-price>1.5</total-price>\n" +
+                        "\t\t\t<frequent-renter-points>1</frequent-renter-points>\n" +
+                        "\t\t</movie-rental>\n" +
+                        "\t</rentals>\n" +
+                        "\t<amount-owed>12.5</amount-owed>\n" +
+                        "\t<frequent-renter-points>5</frequent-renter-points>\n" +
+                        "</customer>\n";
+        ObjectSerializer os = new XMLSerializer(customer);
+        String xml = os.serialize();
+        System.out.println(xml);
+        assert xml.equals(expectedXML);
     }
 }

@@ -4,7 +4,7 @@
 function Main() {
     cd $(dirname ${0})
     javac -d ../target/ main/java/edu/utdallas/emse/hw1/*/*.java test/java/edu/utdallas/emse/hw1/*.java
-    java -cp ../target edu.utdallas.emse.hw1.TestDriver
+    java -cp ../target -ea edu.utdallas.emse.hw1.TestDriver
 }
 
 Main $@

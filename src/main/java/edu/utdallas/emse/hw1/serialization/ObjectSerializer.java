@@ -1,7 +1,9 @@
 package edu.utdallas.emse.hw1.serialization;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class ObjectSerializer {
     private final Object object;
@@ -19,18 +21,21 @@ public abstract class ObjectSerializer {
         serializedName = (serialized == null || serialized.tag().isEmpty()) ?
                 objectClassName.toLowerCase() : serialized.tag();
 
-        List<Field> fs = new ArrayList<>();
+        List<Field> fields = new ArrayList<>();
         for(Class<?> c = objectClass; c.getSuperclass() != null; c = c.getSuperclass()) {
-            fs.addAll(Arrays.asList(c.getDeclaredFields()));
+            fields.addAll(
+                    Arrays.stream(c.getDeclaredFields())
+                          .filter(f -> !Modifier.isStatic(f.getModifiers()))
+                          .filter(f -> f.getAnnotation(Serialized.class) != null)
+                          .collect(Collectors.toList())
+            );
         }
 
-        fs.forEach(f -> {
+        fields.forEach(f -> {
             Serialized sField = f.getAnnotation(Serialized.class);
-            if(sField != null) {
-                String tag = sField.tag().isEmpty() ?
-                        f.getName().toLowerCase() : sField.tag();
-                fields.put(f, tag);
-            }
+            String tag = sField.tag().isEmpty() ?
+                    f.getName().toLowerCase() : sField.tag();
+            this.fields.put(f, tag);
         });
     }
 
