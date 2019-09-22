@@ -66,5 +66,34 @@ public abstract class ObjectSerializer {
         return serializedName;
     }
 
-    public abstract String serialize();
+    public String serialize() {
+        StringBuilder sb = new StringBuilder();
+
+        appendObjectHeader(sb, getObjectSerializedName());
+
+        getFields().forEach((field, tag) -> {
+            field.setAccessible(true);
+
+            Object value;
+            try {
+                value = field.get(getObject());
+            } catch (Exception e) {
+                System.err.println(e);
+                return;
+            }
+
+            /* TODO: Create objectType handlers rather than large if-else clause */
+            appendField(sb, tag, value);
+
+        });
+
+        appendObjectFooter(sb, getObjectSerializedName());
+        return sb.toString();
+    }
+
+    protected abstract void appendObjectHeader(StringBuilder sb, String objectName);
+
+    protected abstract void appendObjectFooter(StringBuilder sb, String objectName);
+
+    protected abstract void appendField(StringBuilder sb, String tag, Object value);
 }

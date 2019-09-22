@@ -73,5 +73,8 @@ public class TestDriver {
         String xml = os.serialize();
         System.out.println(xml);
         assert xml.equals(expectedXML);
+
+        os = new XMLSerializer(new TestSerializer());
+        System.out.println(os.serialize());
     }
 }
