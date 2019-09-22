@@ -82,7 +82,6 @@ public abstract class ObjectSerializer {
                 return;
             }
 
-            /* TODO: Create objectType handlers rather than large if-else clause */
             appendField(sb, tag, value);
 
         });

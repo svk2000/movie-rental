@@ -30,13 +30,11 @@ public class XMLSerializer extends ObjectSerializer {
             appendHeader(sb, tag, "\t");
 
             Collection c = (Collection) value;
-            c.forEach(o -> {
-                appendObject(sb, tag, o);
-            });
+            c.forEach(o -> appendObject(sb, o.getClass().getSimpleName(), o, "\t\t"));
 
             appendFooter(sb, tag, "\t");
         } else {
-            appendObject(sb, tag, value);
+            appendObject(sb, tag, value, "\t");
         }
     }
 
@@ -60,16 +58,16 @@ public class XMLSerializer extends ObjectSerializer {
         sb.append("\n");
     }
 
-    private void appendObject(StringBuilder sb, String tag, Object o) {
+    private void appendObject(StringBuilder sb, String tag, Object o, String pad) {
         if (ObjectSerializable.class.isAssignableFrom(o.getClass())) {
-            appendSerializableObject(sb, (ObjectSerializable) o, "\t\t");
+            appendSerializableObject(sb, (ObjectSerializable) o, pad);
         } else {
-            appendBasicObject(sb, tag, o.toString(), "\t");
+            appendBasicObject(sb, tag, o.toString(), pad);
         }
     }
 
     private void appendSerializableObject(StringBuilder sb, ObjectSerializable value, String pad) {
-        XMLSerializer xmls = new XMLSerializer(value, leadingTabs + pad);
+        XMLSerializer xmls = new XMLSerializer(value, pad);
         sb.append(xmls.serialize());
     }
 
