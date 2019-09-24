@@ -43,16 +43,16 @@ public class Customer implements ObjectSerializable {
         return frequentRenterPoints;
     }
 
-    public String statement() {
-        StringBuilder result = new StringBuilder("Rental Record for " + getName() + "\n");
+    public String getStatement() {
+        StringBuilder statement = new StringBuilder("Rental Record for " + getName() + "\n");
 
         /* show figures for the rentals */
-        rentals.forEach(rental -> result.append("\t").append(rental.toString()).append("\n"));
+        rentals.forEach(rental -> statement.append("\t").append(rental.toString()).append("\n"));
 
         /* add footer lines */
-        result.append("Amount owed is ").append(getTotalAmountOwed()).append("\n")
+        statement.append("Amount owed is ").append(getTotalAmountOwed()).append("\n")
                 .append("You earned ").append(getFrequentRenterPoints()).append(" frequent renter points");
 
-        return result.toString();
+        return statement.toString();
     }
 }

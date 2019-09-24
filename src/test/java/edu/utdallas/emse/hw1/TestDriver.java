@@ -31,7 +31,7 @@ public class TestDriver {
                         "Amount owed is 12.5\n" +
                         "You earned 5 frequent renter points";
 
-        String statement = customer.statement();
+        String statement = customer.getStatement();
         System.out.println(statement);
         assert statement.equals(expected);
 
