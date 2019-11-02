@@ -1,6 +1,6 @@
 package edu.utdallas.emse.hw1.rental;
 
-import edu.utdallas.emse.hw1.core.Movie;
+import edu.utdallas.emse.hw1.Movie;
 import edu.utdallas.emse.hw1.rental.frpstrategy.DefaultMovieFRPStrategy;
 import edu.utdallas.emse.hw1.rental.frpstrategy.MovieFRPStrategy;
 import edu.utdallas.emse.hw1.rental.frpstrategy.NewReleaseMovieFRPStrategy;
@@ -101,11 +101,11 @@ public class MovieRental implements Rental, ObjectSerializable {
         return String.format("%s\t%.2f", getMovie().toString(), getPrice());
     }
 
-    protected double calculatePrice() {
+    private double calculatePrice() {
         return mpStrategy.getPrice(this);
     }
 
-    protected int calculateFrequentRenterPoints() {
+    private int calculateFrequentRenterPoints() {
         return frpStrategy.getFrequentRentalPoints(this);
     }
 }

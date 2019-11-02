@@ -1,6 +1,6 @@
 package edu.utdallas.emse.hw1.rental.pricestrategy;
 
-import edu.utdallas.emse.hw1.core.Movie;
+import edu.utdallas.emse.hw1.Movie;
 import edu.utdallas.emse.hw1.rental.MovieRental;
 
 import java.util.Collections;

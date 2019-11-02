@@ -1,4 +1,4 @@
-package edu.utdallas.emse.hw1.core;
+package edu.utdallas.emse.hw1;
 
 import java.time.Instant;
 

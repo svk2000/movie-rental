@@ -1,8 +1,8 @@
-package edu.utdallas.emse.hw1.core;
+package edu.utdallas.emse.hw1;
 
-import edu.utdallas.emse.hw1.rental.Rental;
 import edu.utdallas.emse.hw1.serialization.ObjectSerializable;
 import edu.utdallas.emse.hw1.serialization.Serialized;
+import edu.utdallas.emse.hw1.transaction.Transaction;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,30 +13,38 @@ public class Customer implements ObjectSerializable {
     private String name;
 
     @Serialized
-    private List<Rental> rentals = new ArrayList<>();
+    private int age;
+
+    @Serialized
+    private List<Transaction> transactions = new ArrayList();
 
     @Serialized(tag="amount-owed")
-    private double totalAmountOwed = 0.0;
+    private double totalBalance = 0.0;
 
     @Serialized(tag="frequent-renter-points")
     private int frequentRenterPoints = 0;
 
-    public Customer(String name) {
+    public Customer(String name, int age) {
         this.name = name;
+        this.age = age;
     }
 
-    public void addRental(Rental r) {
-        rentals.add(r);
-        totalAmountOwed += r.getPrice();
-        frequentRenterPoints += r.getFrequentRenterPoints();
+    public void addTransaction(Transaction t) {
+        transactions.add(t);
+        totalBalance += t.getPrice();
+        frequentRenterPoints += t.getFrequentRenterPoints();
     }
 
     public String getName() {
         return name;
     }
 
+    public int getAge() {
+        return age;
+    }
+
     public double getTotalAmountOwed() {
-        return totalAmountOwed;
+        return totalBalance;
     }
 
     public int getFrequentRenterPoints() {
@@ -46,8 +54,8 @@ public class Customer implements ObjectSerializable {
     public String getStatement() {
         StringBuilder statement = new StringBuilder("Rental Record for " + getName() + "\n");
 
-        /* show figures for the rentals */
-        rentals.forEach(rental -> statement.append("\t").append(rental.toString()).append("\n"));
+        /* show figures for the transactions */
+        transactions.forEach(transaction -> statement.append(transaction.toString()));
 
         /* add footer lines */
         statement.append("Amount owed is ").append(getTotalAmountOwed()).append("\n")
