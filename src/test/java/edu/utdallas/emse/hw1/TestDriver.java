@@ -2,7 +2,7 @@ package edu.utdallas.emse.hw1;
 
 import edu.utdallas.emse.hw1.core.Customer;
 import edu.utdallas.emse.hw1.core.Movie;
-import edu.utdallas.emse.hw1.rental.MovieRentalFactory;
+import edu.utdallas.emse.hw1.rental.MovieRental;
 import edu.utdallas.emse.hw1.serialization.ObjectSerializer;
 import edu.utdallas.emse.hw1.serialization.XMLSerializer;
 
@@ -17,10 +17,10 @@ public class TestDriver {
 
         Customer customer = new Customer("John Smith");
         Instant rentalTime = Instant.now();
-        customer.addRental(MovieRentalFactory.getMovieRental(movie1, 3, rentalTime));
-        customer.addRental(MovieRentalFactory.getMovieRental(movie2, 2, rentalTime));
-        customer.addRental(MovieRentalFactory.getMovieRental(movie3, 1, rentalTime));
-        customer.addRental(MovieRentalFactory.getMovieRental(movie4, 2, rentalTime));
+        customer.addRental(new MovieRental(movie1, 3, rentalTime));
+        customer.addRental(new MovieRental(movie2, 2, rentalTime));
+        customer.addRental(new MovieRental(movie3, 1, rentalTime));
+        customer.addRental(new MovieRental(movie4, 2, rentalTime));
 
         String expected =
                 "Rental Record for John Smith\n" +
@@ -40,27 +40,29 @@ public class TestDriver {
                         "\t<name>John Smith</name>\n" +
                         "\t<rentals>\n" +
                         "\t\t<movie-rental>\n" +
-                        "\t\t\t<is-new-release>false</is-new-release>\n" +
                         "\t\t\t<movie>Independence Day</movie>\n" +
+                        "\t\t\t<is-new-release>false</is-new-release>\n" +
                         "\t\t\t<days-rented>3</days-rented>\n" +
                         "\t\t\t<total-price>3.5</total-price>\n" +
                         "\t\t\t<frequent-renter-points>1</frequent-renter-points>\n" +
                         "\t\t</movie-rental>\n" +
                         "\t\t<movie-rental>\n" +
-                        "\t\t\t<is-new-release>true</is-new-release>\n" +
                         "\t\t\t<movie>Latest Comic Book Movie</movie>\n" +
+                        "\t\t\t<is-new-release>true</is-new-release>\n" +
                         "\t\t\t<days-rented>2</days-rented>\n" +
                         "\t\t\t<total-price>6.0</total-price>\n" +
                         "\t\t\t<frequent-renter-points>2</frequent-renter-points>\n" +
                         "\t\t</movie-rental>\n" +
                         "\t\t<movie-rental>\n" +
                         "\t\t\t<movie>Dumbo</movie>\n" +
+                        "\t\t\t<is-new-release>false</is-new-release>\n" +
                         "\t\t\t<days-rented>1</days-rented>\n" +
                         "\t\t\t<total-price>1.5</total-price>\n" +
                         "\t\t\t<frequent-renter-points>1</frequent-renter-points>\n" +
                         "\t\t</movie-rental>\n" +
                         "\t\t<movie-rental>\n" +
                         "\t\t\t<movie>Dumbo: Even Dumber</movie>\n" +
+                        "\t\t\t<is-new-release>true</is-new-release>\n" +
                         "\t\t\t<days-rented>2</days-rented>\n" +
                         "\t\t\t<total-price>1.5</total-price>\n" +
                         "\t\t\t<frequent-renter-points>1</frequent-renter-points>\n" +

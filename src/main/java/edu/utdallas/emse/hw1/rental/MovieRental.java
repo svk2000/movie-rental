@@ -1,9 +1,16 @@
 package edu.utdallas.emse.hw1.rental;
 
 import edu.utdallas.emse.hw1.core.Movie;
+import edu.utdallas.emse.hw1.rental.frpstrategy.DefaultMovieFRPStrategy;
+import edu.utdallas.emse.hw1.rental.frpstrategy.MovieFRPStrategy;
+import edu.utdallas.emse.hw1.rental.frpstrategy.NewReleaseMovieFRPStrategy;
+import edu.utdallas.emse.hw1.rental.pricestrategy.DefaultMoviePriceStrategy;
+import edu.utdallas.emse.hw1.rental.pricestrategy.MoviePriceStrategy;
+import edu.utdallas.emse.hw1.rental.pricestrategy.NewReleaseMoviePriceStrategy;
 import edu.utdallas.emse.hw1.serialization.ObjectSerializable;
 import edu.utdallas.emse.hw1.serialization.Serialized;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,6 +33,9 @@ public class MovieRental implements Rental, ObjectSerializable {
     @Serialized
     private Movie movie;
 
+    @Serialized(tag = "is-new-release")
+    private boolean isNewRelease;
+
     @Serialized(tag = "days-rented")
     private int daysRented;
 
@@ -35,14 +45,32 @@ public class MovieRental implements Rental, ObjectSerializable {
     @Serialized(tag = "frequent-renter-points")
     private int frequentRenterPoints;
 
+    private MoviePriceStrategy mpStrategy;
+    private MovieFRPStrategy frpStrategy;
+
     //Exception Checks
-    MovieRental(Movie movie, int daysRented) {
+    public MovieRental(Movie movie, int daysRented, Instant rentalDate) {
         this.movie = movie;
         this.daysRented = daysRented;
+
+        /* New release if rented within 2 months of movie release */
+        this.isNewRelease = (rentalDate.getEpochSecond() - movie.getReleaseDate().getEpochSecond())
+                < 5259600L;
+
+
+        mpStrategy = movie.getCategory() == Movie.Category.CHILDRENS || !isNewRelease ?
+                new DefaultMoviePriceStrategy() : new NewReleaseMoviePriceStrategy();
+
+        frpStrategy = movie.getCategory() == Movie.Category.CHILDRENS || !isNewRelease ?
+                new DefaultMovieFRPStrategy() : new NewReleaseMovieFRPStrategy();
     }
 
     public int getDaysRented() {
         return daysRented;
+    }
+
+    public boolean isNewRelease() {
+        return this.isNewRelease;
     }
 
     @Override
@@ -74,24 +102,10 @@ public class MovieRental implements Rental, ObjectSerializable {
     }
 
     protected double calculatePrice() {
-        Movie.Category cat = movie.getCategory();
-        int diffDaysRented = getDaysRented() - getRentalPeriod(cat);
-        return getPriceCode(cat) +
-                ((diffDaysRented > 0) ? diffDaysRented * 1.5 : 0);
+        return mpStrategy.getPrice(this);
     }
 
-    //TODO remove this
     protected int calculateFrequentRenterPoints() {
-        return 1;
-    }
-
-    private double getPriceCode(Movie.Category c) {
-        Double pc = PRICE_CODE.get(c);
-        return pc == null ? 2.0 : pc;
-    }
-
-    private int getRentalPeriod(Movie.Category c) {
-        Integer rp = RENTAL_PERIOD.get(c);
-        return rp == null ? 2 : rp;
+        return frpStrategy.getFrequentRentalPoints(this);
     }
 }
