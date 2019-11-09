@@ -62,7 +62,7 @@ public class Customer implements ObjectSerializable {
     }
 
     public String getStatement() {
-        StringBuilder statement = new StringBuilder("Rental Record for " + getName() + "\n");
+        StringBuilder statement = new StringBuilder("Rentable Record for " + getName() + "\n");
 
         /* show figures for the transactions */
         transactions.forEach(transaction -> statement.append(transaction.toString()));

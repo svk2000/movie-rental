@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Serialized(tag = "movie-rental")
-public class MovieRental implements Rental, ObjectSerializable {
+public class MovieRental implements Rentable, ObjectSerializable {
     private static final Map<Movie.Category, Double> PRICE_CODE;
     private static final Map<Movie.Category, Integer> RENTAL_PERIOD;
 

@@ -1,6 +1,6 @@
 package edu.utdallas.emse.hw1.transaction.frpstrategy;
 
-import edu.utdallas.emse.hw1.rental.Rental;
+import edu.utdallas.emse.hw1.rental.Rentable;
 import edu.utdallas.emse.hw1.transaction.Transaction;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class MultiCategoryFRPStrategy implements TransactionFRPStrategy {
 
     @Override
     public int getFrequentRentalPoints(Transaction t) {
-        List<Rental> rentals = t.getRentals();
+        List<Rentable> rentals = t.getRentals();
         int firstFRP = rentals.get(0).getFrequentRenterPoints();
 
         return firstFRP +

@@ -1,7 +1,7 @@
 package edu.utdallas.emse.hw1.transaction;
 
 import edu.utdallas.emse.hw1.Customer;
-import edu.utdallas.emse.hw1.rental.Rental;
+import edu.utdallas.emse.hw1.rental.Rentable;
 import edu.utdallas.emse.hw1.serialization.Serialized;
 import edu.utdallas.emse.hw1.transaction.frpstrategy.TransactionFRPStrategy;
 import edu.utdallas.emse.hw1.transaction.frpstrategy.TransactionFRPStrategyFactory;
@@ -20,17 +20,17 @@ public class Transaction {
     private int frequentRenterPoints;
 
     @Serialized
-    private List<Rental> rentals = new ArrayList<>();
+    private List<Rentable> rentals = new ArrayList<>();
 
     @Serialized
-    private List<Rental> freeRentals = new ArrayList<>();
+    private List<Rentable> freeRentals = new ArrayList<>();
 
     private TransactionFRPStrategy tfrpStrategy;
 
-    public Transaction(Customer c, List<Rental> rentals) {
+    public Transaction(Customer c, List<Rentable> rentals) {
         this.rentals.addAll(
                 rentals.stream()
-                        .sorted(Comparator.comparing(Rental::getPrice))
+                        .sorted(Comparator.comparing(Rentable::getPrice))
                         .collect(Collectors.toList()));
 
         /* Determine free rentals and deduct frequent renter points */
@@ -47,7 +47,7 @@ public class Transaction {
         c.addToFrequentRenterPoints(frequentRenterPoints);
     }
 
-    public List<Rental> getRentals() {
+    public List<Rentable> getRentals() {
         return rentals;
     }
 

@@ -1,7 +1,6 @@
 package edu.utdallas.emse.hw1.rental.frpstrategy;
 
 import edu.utdallas.emse.hw1.rental.MovieRental;
-import edu.utdallas.emse.hw1.rental.Rental;
 
 public class NewReleaseMovieFRPStrategy implements MovieFRPStrategy {
     @Override

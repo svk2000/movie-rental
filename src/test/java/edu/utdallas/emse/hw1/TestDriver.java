@@ -28,7 +28,7 @@ public class TestDriver {
         customer.addTransaction(transaction1);
 
         String expected =
-                "Rental Record for John Smith\n" +
+                "Rentable Record for John Smith\n" +
                         "\tIndependence Day\t3.50\n" +
                         "\tLatest Comic Book Movie\t6.00\n" +
                         "\tDumbo\t1.50\n" +
