@@ -38,7 +38,13 @@ public class TestDriver {
 
         String statement = customer.getStatement();
         System.out.println(statement);
-        assert statement.equals(expected);
+        System.out.println();
+
+        Transaction transaction2 = new Transaction(customer, rentals);
+        customer.addTransaction(transaction2);
+        statement = customer.getStatement();
+        System.out.println(statement);
+//        assert statement.equals(expected);
 
         String expectedXML =
                 "<customer>\n" +

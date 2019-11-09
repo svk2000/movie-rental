@@ -7,7 +7,9 @@ import edu.utdallas.emse.hw1.transaction.frpstrategy.TransactionFRPStrategy;
 import edu.utdallas.emse.hw1.transaction.frpstrategy.TransactionFRPStrategyFactory;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Serialized(tag = "transaction")
 public class Transaction {
@@ -20,31 +22,49 @@ public class Transaction {
     @Serialized
     private List<Rental> rentals = new ArrayList<>();
 
+    @Serialized
+    private List<Rental> freeRentals = new ArrayList<>();
+
     private TransactionFRPStrategy tfrpStrategy;
 
     public Transaction(Customer c, List<Rental> rentals) {
-        this.rentals.addAll(rentals);
+        this.rentals.addAll(
+                rentals.stream()
+                        .sorted(Comparator.comparing(Rental::getPrice))
+                        .collect(Collectors.toList()));
+
+        /* Determine free rentals and deduct frequent renter points */
+        int freeRentalsRedeemed = determineFreeRentals(c.getFrequentRenterPoints() / 10);
+        c.deductFrequentRenterPoints(freeRentalsRedeemed * 10);
+
+        /* Calculate this transactions cost and frequent rental points */
         this.tfrpStrategy = TransactionFRPStrategyFactory.getStrategy(c, rentals);
         totalCost = calcTotalCost();
         frequentRenterPoints = calcTotalFrequentRenterPoints();
+
+        /* Apply this transaction to the customer */
+        c.addToBalance(totalCost);
+        c.addToFrequentRenterPoints(frequentRenterPoints);
     }
 
     public List<Rental> getRentals() {
         return rentals;
     }
 
-    public double getPrice() {
-        return totalCost;
-    }
-
-    public int getFrequentRenterPoints() {
-        return frequentRenterPoints;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        rentals.forEach(rental -> sb.append("\t").append(rental.toString()).append("\n"));
+
+        sb.append("\tTRANSACTION\n");
+        sb.append("\t\tRentals:\n");
+        rentals.forEach(rental -> sb.append("\t\t\t").append(rental.toString()).append("\n"));
+
+        sb.append("\t\tFree Rentals:\n");
+        freeRentals.forEach(freeRental -> sb.append("\t\t\t").append(freeRental.toString()).append("\n"));
+
+        sb.append("\t\tTransaction price: ").append(totalCost)
+                .append("\t\tTransaction Renter Points: ").append(frequentRenterPoints).append("\n");
+
         return sb.toString();
     }
 
@@ -56,5 +76,14 @@ public class Transaction {
 
     private int calcTotalFrequentRenterPoints() {
         return tfrpStrategy.getFrequentRentalPoints(this);
+    }
+
+    private int determineFreeRentals(int freeRentals) {
+        int i = 0;
+        for (; i < freeRentals && i < rentals.size(); i++) {
+            this.freeRentals.add(rentals.remove(i));
+        }
+
+        return i;
     }
 }

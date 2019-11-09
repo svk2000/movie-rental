@@ -18,10 +18,10 @@ public class Customer implements ObjectSerializable {
     @Serialized
     private List<Transaction> transactions = new ArrayList();
 
-    @Serialized(tag="amount-owed")
+    @Serialized(tag = "amount-owed")
     private double totalBalance = 0.0;
 
-    @Serialized(tag="frequent-renter-points")
+    @Serialized(tag = "frequent-renter-points")
     private int frequentRenterPoints = 0;
 
     public Customer(String name, int age) {
@@ -31,8 +31,6 @@ public class Customer implements ObjectSerializable {
 
     public void addTransaction(Transaction t) {
         transactions.add(t);
-        totalBalance += t.getPrice();
-        frequentRenterPoints += t.getFrequentRenterPoints();
     }
 
     public String getName() {
@@ -47,8 +45,20 @@ public class Customer implements ObjectSerializable {
         return totalBalance;
     }
 
+    public void addToBalance(double amount) {
+        totalBalance += amount;
+    }
+
     public int getFrequentRenterPoints() {
         return frequentRenterPoints;
+    }
+
+    public void addToFrequentRenterPoints(int points) {
+        frequentRenterPoints += points;
+    }
+
+    public void deductFrequentRenterPoints(int points) {
+        frequentRenterPoints = points > frequentRenterPoints ? 0 : frequentRenterPoints - points;
     }
 
     public String getStatement() {
@@ -59,7 +69,7 @@ public class Customer implements ObjectSerializable {
 
         /* add footer lines */
         statement.append("Amount owed is ").append(getTotalAmountOwed()).append("\n")
-                .append("You earned ").append(getFrequentRenterPoints()).append(" frequent renter points");
+                .append("You have ").append(getFrequentRenterPoints()).append(" frequent renter points");
 
         return statement.toString();
     }
