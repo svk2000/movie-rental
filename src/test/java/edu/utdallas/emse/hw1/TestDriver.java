@@ -25,7 +25,6 @@ public class TestDriver {
         rentals.add(new MovieRental(movie4, 2, rentalTime));
 
         Transaction transaction1 = new Transaction(customer, rentals);
-        customer.addTransaction(transaction1);
 
         String expected =
                 "Rentable Record for John Smith\n" +
@@ -41,7 +40,6 @@ public class TestDriver {
         System.out.println();
 
         Transaction transaction2 = new Transaction(customer, rentals);
-        customer.addTransaction(transaction2);
         statement = customer.getStatement();
         System.out.println(statement);
 //        assert statement.equals(expected);

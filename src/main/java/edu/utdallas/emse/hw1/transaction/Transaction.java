@@ -30,7 +30,7 @@ public class Transaction {
     public Transaction(Customer c, List<Rentable> rentals) {
         this.rentals.addAll(
                 rentals.stream()
-                        .sorted(Comparator.comparing(Rentable::getPrice))
+                        .sorted(Comparator.comparing(Rentable::getRentalPrice))
                         .collect(Collectors.toList()));
 
         /* Determine free rentals and deduct frequent renter points */
@@ -45,6 +45,7 @@ public class Transaction {
         /* Apply this transaction to the customer */
         c.addToBalance(totalCost);
         c.addToFrequentRenterPoints(frequentRenterPoints);
+        c.addTransaction(this);
     }
 
     public List<Rentable> getRentals() {
@@ -70,7 +71,7 @@ public class Transaction {
 
     private double calcTotalCost() {
         return rentals.stream()
-                .map(rental -> rental.getPrice())
+                .map(rental -> rental.getRentalPrice())
                 .reduce(0.0, (a, b) -> a + b);
     }
 

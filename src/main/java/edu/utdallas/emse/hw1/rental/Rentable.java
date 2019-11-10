@@ -1,7 +1,7 @@
 package edu.utdallas.emse.hw1.rental;
 
 public interface Rentable {
-    double getPrice();
+    double getRentalPrice();
 
     int getFrequentRenterPoints();
 }

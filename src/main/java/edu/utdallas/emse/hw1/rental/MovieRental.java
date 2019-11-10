@@ -74,7 +74,7 @@ public class MovieRental implements Rentable, ObjectSerializable {
     }
 
     @Override
-    public double getPrice() {
+    public double getRentalPrice() {
         if (totalPrice > 0) {
             return totalPrice;
         }
@@ -98,7 +98,7 @@ public class MovieRental implements Rentable, ObjectSerializable {
 
     @Override
     public String toString() {
-        return String.format("%s\t%.2f", getMovie().toString(), getPrice());
+        return String.format("%s\t%.2f", getMovie().toString(), getRentalPrice());
     }
 
     private double calculatePrice() {
