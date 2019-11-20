@@ -1,5 +1,6 @@
 package edu.utdallas.emse.hw1.transaction.frpstrategy;
 
+import edu.utdallas.emse.hw1.rental.Rentable;
 import edu.utdallas.emse.hw1.transaction.Transaction;
 
 public class AgeFRPStrategy implements TransactionFRPStrategy {
@@ -19,8 +20,9 @@ public class AgeFRPStrategy implements TransactionFRPStrategy {
     @Override
     public int getFrequentRentalPoints(Transaction t) {
         return 2 *
-                t.getRentals().stream()
-                        .map(rental -> rental.getFrequentRenterPoints())
+                t.getItems().stream()
+                        .filter(item -> item instanceof Rentable)
+                        .map(rental -> ((Rentable) rental).getFrequentRenterPoints())
                         .reduce(0, (a, b) -> a + b);
     }
 }

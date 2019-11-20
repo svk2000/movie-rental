@@ -1,7 +1,7 @@
-package edu.utdallas.emse.hw1.rental.pricestrategy;
+package edu.utdallas.emse.hw1.rental.movie.pricestrategy;
 
 import edu.utdallas.emse.hw1.Movie;
-import edu.utdallas.emse.hw1.rental.MovieRental;
+import edu.utdallas.emse.hw1.rental.movie.MovieRental;
 
 import java.util.Collections;
 import java.util.Map;

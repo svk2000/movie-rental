@@ -1,35 +1,20 @@
-package edu.utdallas.emse.hw1.rental;
+package edu.utdallas.emse.hw1.rental.movie;
 
 import edu.utdallas.emse.hw1.Movie;
-import edu.utdallas.emse.hw1.rental.frpstrategy.DefaultMovieFRPStrategy;
-import edu.utdallas.emse.hw1.rental.frpstrategy.MovieFRPStrategy;
-import edu.utdallas.emse.hw1.rental.frpstrategy.NewReleaseMovieFRPStrategy;
-import edu.utdallas.emse.hw1.rental.pricestrategy.DefaultMoviePriceStrategy;
-import edu.utdallas.emse.hw1.rental.pricestrategy.MoviePriceStrategy;
-import edu.utdallas.emse.hw1.rental.pricestrategy.NewReleaseMoviePriceStrategy;
+import edu.utdallas.emse.hw1.rental.Rentable;
+import edu.utdallas.emse.hw1.rental.movie.frpstrategy.DefaultMovieFRPStrategy;
+import edu.utdallas.emse.hw1.rental.movie.frpstrategy.MovieFRPStrategy;
+import edu.utdallas.emse.hw1.rental.movie.frpstrategy.NewReleaseMovieFRPStrategy;
+import edu.utdallas.emse.hw1.rental.movie.pricestrategy.DefaultMoviePriceStrategy;
+import edu.utdallas.emse.hw1.rental.movie.pricestrategy.MoviePriceStrategy;
+import edu.utdallas.emse.hw1.rental.movie.pricestrategy.NewReleaseMoviePriceStrategy;
 import edu.utdallas.emse.hw1.serialization.ObjectSerializable;
 import edu.utdallas.emse.hw1.serialization.Serialized;
 
 import java.time.Instant;
-import java.util.Map;
-import java.util.Collections;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Serialized(tag = "movie-rental")
 public class MovieRental implements Rentable, ObjectSerializable {
-    private static final Map<Movie.Category, Double> PRICE_CODE;
-    private static final Map<Movie.Category, Integer> RENTAL_PERIOD;
-
-    static {
-        final Map<Movie.Category, Double> tmpPC = new ConcurrentHashMap<>();
-        tmpPC.put(Movie.Category.CHILDRENS, 1.5);
-        PRICE_CODE = Collections.unmodifiableMap(tmpPC);
-
-        final Map<Movie.Category, Integer> tmpRP = new ConcurrentHashMap<>();
-        tmpRP.put(Movie.Category.CHILDRENS, 3);
-        RENTAL_PERIOD = Collections.unmodifiableMap(tmpRP);
-    }
-
     @Serialized
     private Movie movie;
 

@@ -1,7 +1,7 @@
 package edu.utdallas.emse.hw1;
 
 import edu.utdallas.emse.hw1.transaction.Transaction;
-import edu.utdallas.emse.hw1.rental.MovieRental;
+import edu.utdallas.emse.hw1.rental.movie.MovieRental;
 import edu.utdallas.emse.hw1.serialization.ObjectSerializer;
 import edu.utdallas.emse.hw1.serialization.XMLSerializer;
 

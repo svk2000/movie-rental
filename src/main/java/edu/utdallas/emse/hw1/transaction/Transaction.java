@@ -1,6 +1,7 @@
 package edu.utdallas.emse.hw1.transaction;
 
 import edu.utdallas.emse.hw1.Customer;
+import edu.utdallas.emse.hw1.rental.FreeRental;
 import edu.utdallas.emse.hw1.rental.Rentable;
 import edu.utdallas.emse.hw1.serialization.Serialized;
 import edu.utdallas.emse.hw1.transaction.frpstrategy.TransactionFRPStrategy;
@@ -20,25 +21,21 @@ public class Transaction {
     private int frequentRenterPoints;
 
     @Serialized
-    private List<Rentable> rentals = new ArrayList<>();
-
-    @Serialized
-    private List<Rentable> freeRentals = new ArrayList<>();
+    private List<TransactionItem> items = new ArrayList<>();
 
     private TransactionFRPStrategy tfrpStrategy;
 
-    public Transaction(Customer c, List<Rentable> rentals) {
-        this.rentals.addAll(
-                rentals.stream()
-                        .sorted(Comparator.comparing(Rentable::getRentalPrice))
+    public Transaction(Customer c, List<TransactionItem> ti) {
+        this.items.addAll(
+                ti.stream()
+                        .sorted(Comparator.comparing(TransactionItem::getPrice))
                         .collect(Collectors.toList()));
 
         /* Determine free rentals and deduct frequent renter points */
-        int freeRentalsRedeemed = determineFreeRentals(c.getFrequentRenterPoints() / 10);
-        c.deductFrequentRenterPoints(freeRentalsRedeemed * 10);
+        processFreeRentals(c);
 
         /* Calculate this transactions cost and frequent rental points */
-        this.tfrpStrategy = TransactionFRPStrategyFactory.getStrategy(c, rentals);
+        this.tfrpStrategy = TransactionFRPStrategyFactory.getStrategy(c, items);
         totalCost = calcTotalCost();
         frequentRenterPoints = calcTotalFrequentRenterPoints();
 
@@ -48,8 +45,8 @@ public class Transaction {
         c.addTransaction(this);
     }
 
-    public List<Rentable> getRentals() {
-        return rentals;
+    public List<TransactionItem> getItems() {
+        return items;
     }
 
     @Override
@@ -58,10 +55,7 @@ public class Transaction {
 
         sb.append("\tTRANSACTION\n");
         sb.append("\t\tRentals:\n");
-        rentals.forEach(rental -> sb.append("\t\t\t").append(rental.toString()).append("\n"));
-
-        sb.append("\t\tFree Rentals:\n");
-        freeRentals.forEach(freeRental -> sb.append("\t\t\t").append(freeRental.toString()).append("\n"));
+        items.forEach(item -> sb.append("\t\t\t").append(item.toString()).append("\n"));
 
         sb.append("\t\tTransaction price: ").append(totalCost)
                 .append("\t\tTransaction Renter Points: ").append(frequentRenterPoints).append("\n");
@@ -70,8 +64,8 @@ public class Transaction {
     }
 
     private double calcTotalCost() {
-        return rentals.stream()
-                .map(rental -> rental.getRentalPrice())
+        return items.stream()
+                .map(item -> item.getPrice())
                 .reduce(0.0, (a, b) -> a + b);
     }
 
@@ -79,12 +73,23 @@ public class Transaction {
         return tfrpStrategy.getFrequentRentalPoints(this);
     }
 
-    private int determineFreeRentals(int freeRentals) {
-        int i = 0;
-        for (; i < freeRentals && i < rentals.size(); i++) {
-            this.freeRentals.add(rentals.remove(i));
+    private void processFreeRentals(Customer c) {
+        List<FreeRental> freeRentals = new ArrayList();
+
+        int numFreeRentals = c.getFrequentRenterPoints() / 10;
+        for (int i = 0; numFreeRentals > 0 && i < items.size(); i++) {
+            TransactionItem ti = items.get(i);
+            if (ti instanceof Rentable) {
+                freeRentals.add(new FreeRental((Rentable) ti));
+                numFreeRentals--;
+            }
         }
 
-        return i;
+        freeRentals.forEach(rental -> {
+            items.remove(rental.getBaseRental());
+            items.add(rental);
+        });
+
+        c.deductFrequentRenterPoints(freeRentals.size() * 10);
     }
 }

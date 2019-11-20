@@ -1,6 +1,6 @@
-package edu.utdallas.emse.hw1.rental.pricestrategy;
+package edu.utdallas.emse.hw1.rental.movie.pricestrategy;
 
-import edu.utdallas.emse.hw1.rental.MovieRental;
+import edu.utdallas.emse.hw1.rental.movie.MovieRental;
 
 public class NewReleaseMoviePriceStrategy implements MoviePriceStrategy {
     @Override
