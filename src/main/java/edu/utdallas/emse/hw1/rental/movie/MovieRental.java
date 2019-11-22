@@ -20,10 +20,12 @@ public class MovieRental extends Rental {
                 < 5259600L;
     }
 
+    @Override
     protected PriceStrategy getPriceStrategy() {
         return MovieStrategyFactory.getInstance().getPriceStrategy(this);
     }
 
+    @Override
     protected FRPStrategy getFRPStrategy() {
         return MovieStrategyFactory.getInstance().getFRPStrategy(this);
     }

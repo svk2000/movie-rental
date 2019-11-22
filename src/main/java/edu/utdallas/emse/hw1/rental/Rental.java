@@ -87,6 +87,6 @@ public abstract class Rental implements Rentable {
 
     @Override
     public String toString() {
-        return String.format("%s\t%.2f", getItem().toString(), getRentalPrice());
+        return String.format("RENTAL: %s\t%.2f", getItem().toString(), getRentalPrice());
     }
 }

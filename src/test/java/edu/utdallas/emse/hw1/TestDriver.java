@@ -1,7 +1,7 @@
 package edu.utdallas.emse.hw1;
 
 import edu.utdallas.emse.hw1.item.*;
-import edu.utdallas.emse.hw1.purchase.MoviePurchase;
+import edu.utdallas.emse.hw1.purchase.movie.MoviePurchase;
 import edu.utdallas.emse.hw1.rental.movie.MovieRental;
 import edu.utdallas.emse.hw1.rental.musiccd.MusicCDRental;
 import edu.utdallas.emse.hw1.rental.playstation.PlayStationRental;
@@ -34,6 +34,8 @@ public class TestDriver {
         Instant rentalTime = Instant.now();
 
         ArrayList<TransactionItem> transactionItems = new ArrayList();
+
+        /* RENTALS */
         transactionItems.add(new MovieRental(movie1, 3, rentalTime));
         transactionItems.add(new MovieRental(movie2, 2, rentalTime));
         transactionItems.add(new MovieRental(movie3, 1, rentalTime));
@@ -44,11 +46,8 @@ public class TestDriver {
         transactionItems.add(new PlayStationRental(ps, 5, rentalTime));
         transactionItems.add(new XBoxRental(xbox, 6, rentalTime));
 
-//        transactionItems.add(new MoviePurchase(movie1));
-//        transactionItems.add(new MoviePurchase(movie2));
-//        transactionItems.add(new MoviePurchase(movie3));
-//        transactionItems.add(new MoviePurchase(movie4));
-
+        /* PURCHASES */
+        transactionItems.add(new MoviePurchase(movie1, rentalTime));
 
         Transaction transaction1 = new Transaction(customer, transactionItems);
 

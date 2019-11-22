@@ -21,6 +21,9 @@ public class Customer implements ObjectSerializable {
     @Serialized(tag = "amount-owed")
     private double totalBalance = 0.0;
 
+    @Serialized(tag = "rewards-points")
+    private int rewardsPoints = 0;
+
     @Serialized(tag = "frequent-renter-points")
     private int frequentRenterPoints = 0;
 
@@ -49,12 +52,24 @@ public class Customer implements ObjectSerializable {
         totalBalance += amount;
     }
 
+    public int getRewardsPoints() {
+        return rewardsPoints;
+    }
+
     public int getFrequentRenterPoints() {
         return frequentRenterPoints;
     }
 
+    public void addToRewardsPoints(int points) {
+        rewardsPoints += points;
+    }
+
     public void addToFrequentRenterPoints(int points) {
         frequentRenterPoints += points;
+    }
+
+    public void deductRewardsPoints(int points) {
+        rewardsPoints = points > rewardsPoints ? 0 : rewardsPoints - points;
     }
 
     public void deductFrequentRenterPoints(int points) {
@@ -69,6 +84,7 @@ public class Customer implements ObjectSerializable {
 
         /* add footer lines */
         statement.append("Amount owed is ").append(getTotalAmountOwed()).append("\n")
+                .append("You have ").append(getRewardsPoints()).append(" rewards points").append("\n")
                 .append("You have ").append(getFrequentRenterPoints()).append(" frequent renter points");
 
         return statement.toString();

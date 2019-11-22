@@ -1,6 +1,7 @@
 package edu.utdallas.emse.hw1.transaction;
 
 import edu.utdallas.emse.hw1.Customer;
+import edu.utdallas.emse.hw1.purchase.Purchaseable;
 import edu.utdallas.emse.hw1.rental.FreeRental;
 import edu.utdallas.emse.hw1.rental.Rentable;
 import edu.utdallas.emse.hw1.rental.Rental;
@@ -17,6 +18,9 @@ import java.util.stream.Collectors;
 public class Transaction {
     @Serialized(tag = "total-cost")
     private double totalCost;
+
+    @Serialized(tag = "rewards-points")
+    private int rewardsPoints;
 
     @Serialized(tag = "frequent-renter-points")
     private int frequentRenterPoints;
@@ -38,10 +42,12 @@ public class Transaction {
         /* Calculate this transactions cost and frequent rental points */
         this.tfrpStrategy = TransactionFRPStrategyFactory.getStrategy(c, items);
         totalCost = calcTotalCost();
+        rewardsPoints = calcTotalRewardsPoints();
         frequentRenterPoints = calcTotalFrequentRenterPoints();
 
         /* Apply this transaction to the customer */
         c.addToBalance(totalCost);
+        c.addToRewardsPoints(rewardsPoints);
         c.addToFrequentRenterPoints(frequentRenterPoints);
         c.addTransaction(this);
     }
@@ -56,9 +62,15 @@ public class Transaction {
 
         sb.append("\tTRANSACTION\n");
         sb.append("\t\tRentals:\n");
-        items.forEach(item -> sb.append("\t\t\t").append(item.toString()).append("\n"));
+        items.stream().filter(item -> item instanceof Rentable)
+                .forEach(item -> sb.append("\t\t\t").append(item.toString()).append("\n"));
 
-        sb.append("\t\tTransaction price: ").append(totalCost)
+        sb.append("\t\tPurchases:\n");
+        items.stream().filter(item -> item instanceof Purchaseable)
+                .forEach(item -> sb.append("\t\t\t").append(item.toString()).append("\n"));
+
+        sb.append("\t\tTransaction price: ").append(totalCost).append("\n")
+                .append("\t\tTransaction Rewards Points: ").append(rewardsPoints).append("\n")
                 .append("\t\tTransaction Renter Points: ").append(frequentRenterPoints).append("\n");
 
         return sb.toString();
@@ -68,6 +80,13 @@ public class Transaction {
         return items.stream()
                 .map(item -> item.getPrice())
                 .reduce(0.0, (a, b) -> a + b);
+    }
+
+    private int calcTotalRewardsPoints() {
+        return items.stream()
+                .filter(item -> item instanceof Purchaseable)
+                .map(item -> ((Purchaseable) item).getRewardsPoints())
+                .reduce(0, (a, b) -> a + b);
     }
 
     private int calcTotalFrequentRenterPoints() {
