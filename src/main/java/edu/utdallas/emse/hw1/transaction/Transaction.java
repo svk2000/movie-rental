@@ -39,7 +39,7 @@ public class Transaction {
         /* Determine free rentals and deduct frequent renter points */
         processFreeRentals(c);
 
-        /* Calculate this transactions cost and frequent rental points */
+        /* Calculate this transactions cost and points */
         this.tfrpStrategy = TransactionFRPStrategyFactory.getStrategy(c, items);
         totalCost = calcTotalCost();
         rewardsPoints = calcTotalRewardsPoints();

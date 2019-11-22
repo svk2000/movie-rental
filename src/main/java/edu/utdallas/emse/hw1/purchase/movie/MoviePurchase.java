@@ -21,7 +21,7 @@ public class MoviePurchase extends Purchase {
 
     @Override
     protected RewardsPointStrategy getRewardsPointStrategy() {
-        return MovieStrategyFactory.getInstance().getFRPStrategy(this);
+        return MovieStrategyFactory.getInstance().getRewardsPointStrategy(this);
     }
 
     public Movie getMovie() {

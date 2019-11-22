@@ -23,7 +23,7 @@ public class MovieStrategyFactory {
         return DefaultMoviePriceStrategy.getInstance();
     }
 
-    public RewardsPointStrategy getFRPStrategy(MoviePurchase purchase) {
+    public RewardsPointStrategy getRewardsPointStrategy(MoviePurchase purchase) {
         return DefaultMovieRewardsPointStrategy.getInstance();
     }
 }

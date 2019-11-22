@@ -2,6 +2,10 @@ package edu.utdallas.emse.hw1;
 
 import edu.utdallas.emse.hw1.item.*;
 import edu.utdallas.emse.hw1.purchase.movie.MoviePurchase;
+import edu.utdallas.emse.hw1.purchase.musiccd.MusicCDPurchase;
+import edu.utdallas.emse.hw1.purchase.playstation.PlayStationPurchase;
+import edu.utdallas.emse.hw1.purchase.videogame.VideoGamePurchase;
+import edu.utdallas.emse.hw1.purchase.xbox.XBoxPurchase;
 import edu.utdallas.emse.hw1.rental.movie.MovieRental;
 import edu.utdallas.emse.hw1.rental.musiccd.MusicCDRental;
 import edu.utdallas.emse.hw1.rental.playstation.PlayStationRental;
@@ -31,23 +35,27 @@ public class TestDriver {
         XBox xbox = new XBox(XBox.Type.XBOX_ONE);
 
         Customer customer = new Customer("John Smith", 22);
-        Instant rentalTime = Instant.now();
+        Instant transactionTime = Instant.now();
 
         ArrayList<TransactionItem> transactionItems = new ArrayList();
 
         /* RENTALS */
-        transactionItems.add(new MovieRental(movie1, 3, rentalTime));
-        transactionItems.add(new MovieRental(movie2, 2, rentalTime));
-        transactionItems.add(new MovieRental(movie3, 1, rentalTime));
-        transactionItems.add(new MovieRental(movie4, 2, rentalTime));
-        transactionItems.add(new VideoGameRental(vg1, 5, rentalTime));
-        transactionItems.add(new VideoGameRental(vg2, 6, rentalTime));
-        transactionItems.add(new MusicCDRental(cd1, 10, rentalTime));
-        transactionItems.add(new PlayStationRental(ps, 5, rentalTime));
-        transactionItems.add(new XBoxRental(xbox, 6, rentalTime));
+        transactionItems.add(new MovieRental(movie1, 3, transactionTime));
+        transactionItems.add(new MovieRental(movie2, 2, transactionTime));
+        transactionItems.add(new MovieRental(movie3, 1, transactionTime));
+        transactionItems.add(new MovieRental(movie4, 2, transactionTime));
+        transactionItems.add(new VideoGameRental(vg1, 5, transactionTime));
+        transactionItems.add(new VideoGameRental(vg2, 6, transactionTime));
+        transactionItems.add(new MusicCDRental(cd1, 10, transactionTime));
+        transactionItems.add(new PlayStationRental(ps, 5, transactionTime));
+        transactionItems.add(new XBoxRental(xbox, 6, transactionTime));
 
         /* PURCHASES */
-        transactionItems.add(new MoviePurchase(movie1, rentalTime));
+        transactionItems.add(new MoviePurchase(movie1, transactionTime));
+        transactionItems.add(new VideoGamePurchase(vg1, transactionTime));
+        transactionItems.add(new MusicCDPurchase(cd1, transactionTime));
+        transactionItems.add(new PlayStationPurchase(ps, transactionTime));
+        transactionItems.add(new XBoxPurchase(xbox, transactionTime));
 
         Transaction transaction1 = new Transaction(customer, transactionItems);
 
