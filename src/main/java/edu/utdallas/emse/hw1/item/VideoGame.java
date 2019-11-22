@@ -2,13 +2,13 @@ package edu.utdallas.emse.hw1.item;
 
 import java.time.Instant;
 
-public class VideoGame {
+public class VideoGame implements Item {
     private String title;
     private Instant releaseDate;
 
-    public VideoGame(String title, Instant rel) {
+    public VideoGame(String title, Instant releaseDate) {
         this.title = title;
-        this.releaseDate = rel;
+        this.releaseDate = releaseDate;
     }
 
     public String getTitle() {
