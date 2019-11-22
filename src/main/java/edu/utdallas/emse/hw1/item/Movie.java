@@ -1,8 +1,10 @@
-package edu.utdallas.emse.hw1;
+package edu.utdallas.emse.hw1.item;
+
+import edu.utdallas.emse.hw1.item.Item;
 
 import java.time.Instant;
 
-public class Movie {
+public class Movie implements Item {
 
     public enum Category {
         CHILDRENS, DRAMA, COMEDY, ACTION, THRILLER, DOCUMENTARY

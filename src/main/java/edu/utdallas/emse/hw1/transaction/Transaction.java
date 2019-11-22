@@ -3,6 +3,7 @@ package edu.utdallas.emse.hw1.transaction;
 import edu.utdallas.emse.hw1.Customer;
 import edu.utdallas.emse.hw1.rental.FreeRental;
 import edu.utdallas.emse.hw1.rental.Rentable;
+import edu.utdallas.emse.hw1.rental.Rental;
 import edu.utdallas.emse.hw1.serialization.Serialized;
 import edu.utdallas.emse.hw1.transaction.frpstrategy.TransactionFRPStrategy;
 import edu.utdallas.emse.hw1.transaction.frpstrategy.TransactionFRPStrategyFactory;
@@ -80,13 +81,13 @@ public class Transaction {
         for (int i = 0; numFreeRentals > 0 && i < items.size(); i++) {
             TransactionItem ti = items.get(i);
             if (ti instanceof Rentable) {
-                freeRentals.add(new FreeRental((Rentable) ti));
+                freeRentals.add(new FreeRental((Rental) ti));
                 numFreeRentals--;
             }
         }
 
         freeRentals.forEach(rental -> {
-            items.remove(rental.getBaseRental());
+            items.remove(rental.getRental());
             items.add(rental);
         });
 

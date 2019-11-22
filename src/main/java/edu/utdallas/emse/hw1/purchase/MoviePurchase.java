@@ -1,6 +1,6 @@
 package edu.utdallas.emse.hw1.purchase;
 
-import edu.utdallas.emse.hw1.Movie;
+import edu.utdallas.emse.hw1.item.Movie;
 import edu.utdallas.emse.hw1.serialization.Serialized;
 
 @Serialized(tag = "movie-purchase")

@@ -1,6 +1,6 @@
 package edu.utdallas.emse.hw1.transaction.frpstrategy;
 
-import edu.utdallas.emse.hw1.rental.Rentable;
+import edu.utdallas.emse.hw1.rental.Rental;
 import edu.utdallas.emse.hw1.transaction.Transaction;
 
 public class DefaultFRPStrategy implements TransactionFRPStrategy {
@@ -20,8 +20,8 @@ public class DefaultFRPStrategy implements TransactionFRPStrategy {
     @Override
     public int getFrequentRentalPoints(Transaction t) {
         return t.getItems().stream()
-                .filter(item -> item instanceof Rentable)
-                .map(item -> ((Rentable) item).getFrequentRenterPoints())
+                .filter(item -> item instanceof Rental)
+                .map(item -> ((Rental) item).getFrequentRenterPoints())
                 .reduce(0, (a, b) -> a + b);
     }
 }

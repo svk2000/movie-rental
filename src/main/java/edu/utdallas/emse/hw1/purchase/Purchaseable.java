@@ -6,5 +6,6 @@ public interface Purchaseable extends TransactionItem {
     default double getPrice() {
         return getPurchasePrice();
     }
+
     double getPurchasePrice();
 }

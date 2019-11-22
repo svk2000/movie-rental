@@ -1,15 +1,18 @@
-package edu.utdallas.emse.hw1.rental.movie.pricestrategy;
+package edu.utdallas.emse.hw1.rental.movie.price;
 
-import edu.utdallas.emse.hw1.Movie;
-import edu.utdallas.emse.hw1.rental.movie.MovieRental;
+import edu.utdallas.emse.hw1.item.Movie;
+import edu.utdallas.emse.hw1.rental.Rental;
+import edu.utdallas.emse.hw1.rental.PriceStrategy;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DefaultMoviePriceStrategy implements MoviePriceStrategy {
+public class DefaultMoviePriceStrategy implements PriceStrategy {
     private static final Map<Movie.Category, Double> PRICE_CODE;
     private static final Map<Movie.Category, Integer> RENTAL_PERIOD;
+
+    private static final DefaultMoviePriceStrategy INSTANCE;
 
     static {
         final Map<Movie.Category, Double> tmpPC = new ConcurrentHashMap<>();
@@ -19,11 +22,21 @@ public class DefaultMoviePriceStrategy implements MoviePriceStrategy {
         final Map<Movie.Category, Integer> tmpRP = new ConcurrentHashMap<>();
         tmpRP.put(Movie.Category.CHILDRENS, 3);
         RENTAL_PERIOD = Collections.unmodifiableMap(tmpRP);
+
+        INSTANCE = new DefaultMoviePriceStrategy();
+    }
+
+    private DefaultMoviePriceStrategy() {
+    }
+
+    public static DefaultMoviePriceStrategy getInstance() {
+        return INSTANCE;
     }
 
     @Override
-    public double getPrice(MovieRental rental) {
-        Movie.Category cat = rental.getMovie().getCategory();
+    public double getPrice(Rental rental) {
+        Movie movie = (Movie) rental.getItem();
+        Movie.Category cat = movie.getCategory();
         int diffDaysRented = rental.getDaysRented() - getRentalPeriod(cat);
         return getPriceCode(cat) +
                 ((diffDaysRented > 0) ? diffDaysRented * 1.5 : 0);

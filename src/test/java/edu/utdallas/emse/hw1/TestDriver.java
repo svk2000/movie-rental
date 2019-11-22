@@ -1,9 +1,12 @@
 package edu.utdallas.emse.hw1;
 
-import edu.utdallas.emse.hw1.transaction.Transaction;
+import edu.utdallas.emse.hw1.item.Movie;
+import edu.utdallas.emse.hw1.purchase.MoviePurchase;
 import edu.utdallas.emse.hw1.rental.movie.MovieRental;
+import edu.utdallas.emse.hw1.transaction.Transaction;
 import edu.utdallas.emse.hw1.serialization.ObjectSerializer;
 import edu.utdallas.emse.hw1.serialization.XMLSerializer;
+import edu.utdallas.emse.hw1.transaction.TransactionItem;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -18,16 +21,22 @@ public class TestDriver {
         Customer customer = new Customer("John Smith", 22);
         Instant rentalTime = Instant.now();
 
-        ArrayList rentals = new ArrayList();
-        rentals.add(new MovieRental(movie1, 3, rentalTime));
-        rentals.add(new MovieRental(movie2, 2, rentalTime));
-        rentals.add(new MovieRental(movie3, 1, rentalTime));
-        rentals.add(new MovieRental(movie4, 2, rentalTime));
+        ArrayList<TransactionItem> transactionItems = new ArrayList();
+        transactionItems.add(new MovieRental(movie1, 3, rentalTime));
+        transactionItems.add(new MovieRental(movie2, 2, rentalTime));
+        transactionItems.add(new MovieRental(movie3, 1, rentalTime));
+        transactionItems.add(new MovieRental(movie4, 2, rentalTime));
 
-        Transaction transaction1 = new Transaction(customer, rentals);
+//        transactionItems.add(new MoviePurchase(movie1));
+//        transactionItems.add(new MoviePurchase(movie2));
+//        transactionItems.add(new MoviePurchase(movie3));
+//        transactionItems.add(new MoviePurchase(movie4));
+
+
+        Transaction transaction1 = new Transaction(customer, transactionItems);
 
         String expected =
-                "Rentable Record for John Smith\n" +
+                "Rental Record for John Smith\n" +
                         "\tIndependence Day\t3.50\n" +
                         "\tLatest Comic Book Movie\t6.00\n" +
                         "\tDumbo\t1.50\n" +
@@ -39,7 +48,7 @@ public class TestDriver {
         System.out.println(statement);
         System.out.println();
 
-        Transaction transaction2 = new Transaction(customer, rentals);
+        Transaction transaction2 = new Transaction(customer, transactionItems);
         statement = customer.getStatement();
         System.out.println(statement);
 //        assert statement.equals(expected);
