@@ -2,26 +2,19 @@ package edu.utdallas.emse.hw1.item;
 
 import java.time.Instant;
 
-public class Movie implements Item {
-
-    public enum Category {
-        CHILDRENS, DRAMA, COMEDY, ACTION, THRILLER, DOCUMENTARY
-    }
-
+public class MusicCD implements Item {
     private String title;
-
-    private Category category;
+    private String artist;
     private Instant releaseDate;
 
-    //TODO Exception Checks
-    public Movie(String title, Category c, Instant release) {
+    public MusicCD(String title, String artist, Instant release) {
         this.title = title;
-        this.category = c;
+        this.artist = artist;
         this.releaseDate = release;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getArtist() {
+        return artist;
     }
 
     public String getTitle() {
@@ -34,6 +27,6 @@ public class Movie implements Item {
 
     @Override
     public String toString() {
-        return getTitle();
+        return getArtist() + " - " + getTitle();
     }
 }

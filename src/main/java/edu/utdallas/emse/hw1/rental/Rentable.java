@@ -19,6 +19,4 @@ public interface Rentable extends TransactionItem {
     int getDaysRented();
 
     Instant getDate();
-
-    boolean isNewRelease();
 }

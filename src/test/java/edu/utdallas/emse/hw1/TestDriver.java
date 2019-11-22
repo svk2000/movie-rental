@@ -1,10 +1,12 @@
 package edu.utdallas.emse.hw1;
 
-import edu.utdallas.emse.hw1.item.Movie;
-import edu.utdallas.emse.hw1.item.VideoGame;
+import edu.utdallas.emse.hw1.item.*;
 import edu.utdallas.emse.hw1.purchase.MoviePurchase;
 import edu.utdallas.emse.hw1.rental.movie.MovieRental;
+import edu.utdallas.emse.hw1.rental.musiccd.MusicCDRental;
+import edu.utdallas.emse.hw1.rental.playstation.PlayStationRental;
 import edu.utdallas.emse.hw1.rental.videogame.VideoGameRental;
+import edu.utdallas.emse.hw1.rental.xbox.XBoxRental;
 import edu.utdallas.emse.hw1.transaction.Transaction;
 import edu.utdallas.emse.hw1.serialization.ObjectSerializer;
 import edu.utdallas.emse.hw1.serialization.XMLSerializer;
@@ -20,7 +22,13 @@ public class TestDriver {
         Movie movie3 = new Movie("Dumbo", Movie.Category.CHILDRENS, Instant.parse("1941-10-23T00:00:00.00Z"));
         Movie movie4 = new Movie("Dumbo: Even Dumber", Movie.Category.CHILDRENS, Instant.now());
 
-        VideoGame vg1 = new VideoGame("Mario Bros.", Instant.parse("1986-07-03T00:00:00.00Z"));
+        VideoGame vg1 = new VideoGame("Mario Bros. for PS4", Instant.parse("1986-07-03T00:00:00.00Z"));
+        VideoGame vg2 = new VideoGame("Mario Bros. for XBoxOne", Instant.parse("1986-07-03T00:00:00.00Z"));
+
+        MusicCD cd1 = new MusicCD("Cheezy Pop Love Songs", "New Backstreet Boys on the Block", Instant.now());
+
+        PlayStation ps = new PlayStation(4);
+        XBox xbox = new XBox(XBox.Type.XBOX_ONE);
 
         Customer customer = new Customer("John Smith", 22);
         Instant rentalTime = Instant.now();
@@ -31,6 +39,10 @@ public class TestDriver {
         transactionItems.add(new MovieRental(movie3, 1, rentalTime));
         transactionItems.add(new MovieRental(movie4, 2, rentalTime));
         transactionItems.add(new VideoGameRental(vg1, 5, rentalTime));
+        transactionItems.add(new VideoGameRental(vg2, 6, rentalTime));
+        transactionItems.add(new MusicCDRental(cd1, 10, rentalTime));
+        transactionItems.add(new PlayStationRental(ps, 5, rentalTime));
+        transactionItems.add(new XBoxRental(xbox, 6, rentalTime));
 
 //        transactionItems.add(new MoviePurchase(movie1));
 //        transactionItems.add(new MoviePurchase(movie2));

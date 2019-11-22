@@ -46,11 +46,6 @@ public class FreeRental implements Rentable {
     }
 
     @Override
-    public boolean isNewRelease() {
-        return rental.isNewRelease();
-    }
-
-    @Override
     public String toString() {
         return rental.toString() + "\tFREE";
     }
