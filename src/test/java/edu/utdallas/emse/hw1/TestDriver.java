@@ -1,11 +1,13 @@
 package edu.utdallas.emse.hw1;
 
 import edu.utdallas.emse.hw1.item.*;
+import edu.utdallas.emse.hw1.purchase.PurchaseFactory;
 import edu.utdallas.emse.hw1.purchase.movie.MoviePurchase;
 import edu.utdallas.emse.hw1.purchase.musiccd.MusicCDPurchase;
 import edu.utdallas.emse.hw1.purchase.playstation.PlayStationPurchase;
 import edu.utdallas.emse.hw1.purchase.videogame.VideoGamePurchase;
 import edu.utdallas.emse.hw1.purchase.xbox.XBoxPurchase;
+import edu.utdallas.emse.hw1.rental.RentalFactory;
 import edu.utdallas.emse.hw1.rental.movie.MovieRental;
 import edu.utdallas.emse.hw1.rental.musiccd.MusicCDRental;
 import edu.utdallas.emse.hw1.rental.playstation.PlayStationRental;
@@ -40,22 +42,22 @@ public class TestDriver {
         ArrayList<TransactionItem> transactionItems = new ArrayList();
 
         /* RENTALS */
-        transactionItems.add(new MovieRental(movie1, 3, transactionTime));
-        transactionItems.add(new MovieRental(movie2, 2, transactionTime));
-        transactionItems.add(new MovieRental(movie3, 1, transactionTime));
-        transactionItems.add(new MovieRental(movie4, 2, transactionTime));
-        transactionItems.add(new VideoGameRental(vg1, 5, transactionTime));
-        transactionItems.add(new VideoGameRental(vg2, 6, transactionTime));
-        transactionItems.add(new MusicCDRental(cd1, 10, transactionTime));
-        transactionItems.add(new PlayStationRental(ps, 5, transactionTime));
-        transactionItems.add(new XBoxRental(xbox, 6, transactionTime));
+        transactionItems.add(RentalFactory.getRental(movie1, 3));
+        transactionItems.add(RentalFactory.getRental(movie2, 2));
+        transactionItems.add(RentalFactory.getRental(movie3, 1));
+        transactionItems.add(RentalFactory.getRental(movie4, 2));
+        transactionItems.add(RentalFactory.getRental(vg1, 5));
+        transactionItems.add(RentalFactory.getRental(vg2, 6));
+        transactionItems.add(RentalFactory.getRental(cd1, 10));
+        transactionItems.add(RentalFactory.getRental(ps, 5));
+        transactionItems.add(RentalFactory.getRental(xbox, 6));
 
         /* PURCHASES */
-        transactionItems.add(new MoviePurchase(movie1, transactionTime));
-        transactionItems.add(new VideoGamePurchase(vg1, transactionTime));
-        transactionItems.add(new MusicCDPurchase(cd1, transactionTime));
-        transactionItems.add(new PlayStationPurchase(ps, transactionTime));
-        transactionItems.add(new XBoxPurchase(xbox, transactionTime));
+        transactionItems.add(PurchaseFactory.getPurchase(movie1));
+        transactionItems.add(PurchaseFactory.getPurchase(vg1));
+        transactionItems.add(PurchaseFactory.getPurchase(cd1));
+        transactionItems.add(PurchaseFactory.getPurchase(ps));
+        transactionItems.add(PurchaseFactory.getPurchase(xbox));
 
         Transaction transaction1 = new Transaction(customer, transactionItems);
 
