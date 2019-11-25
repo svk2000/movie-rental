@@ -3,8 +3,9 @@
 # Build and run TestDriver from command line.
 function Main() {
     cd $(dirname ${0})
-    mkdir ../target
-    javac -d ../target/ main/java/edu/utdallas/emse/hw1/*/*.java test/java/edu/utdallas/emse/hw1/*.java
+    rm -rf ../target
+    mkdir -p ../target
+    javac -d ../target $(find . -name "*.java" | xargs)
     java -cp ../target -ea edu.utdallas.emse.hw1.TestDriver
 }
 
